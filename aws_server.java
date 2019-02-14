@@ -118,6 +118,7 @@ public class aws_server
                 }
             } catch (Exception e)
             {
+            	e.printStackTrace();
                 msg = "Cannot read from S3";
                 success = false;
             }
