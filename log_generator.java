@@ -47,10 +47,11 @@ public class log_generator
 
         try
         {
-            PrintWriter writer = new PrintWriter(file_name, "UTF-8");
-            for (int i = 0; i < count; ++i)
-                writer.println(log_buffer[i]);
-            writer.close();
+        	aws_server.aws_connector_instance.uploadLog(file_name, count);        	
+//            PrintWriter writer = new PrintWriter(file_name, "UTF-8");
+//            for (int i = 0; i < count; ++i)
+//               writer.println(log_buffer[i]);
+//            writer.close();
         } catch(Exception e){}
     }
 

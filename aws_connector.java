@@ -26,6 +26,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class aws_connector
 {
@@ -73,20 +74,26 @@ public class aws_connector
         return result;
     }
 
+    public void uploadLog(String filename, int count) throws Exception{
+    	s3.putObject(new PutObjectRequest(bucketName, filename, createSampleFile(count)));
+    }
     /*
      *  Reference function
      */
-    private static File createSampleFile() throws IOException
+    private static File createSampleFile(int count) throws IOException
     {
         File file = File.createTempFile("aws-java-sdk-", ".txt");
         file.deleteOnExit();
 
         Writer writer = new OutputStreamWriter(new FileOutputStream(file));
-        writer.write("abcdefghijklmnopqrstuvwxyz\n");
-        writer.write("01234567890112345678901234\n");
-        writer.write("!@#$%^&*()-=[]{};':',.<>/?\n");
-        writer.write("01234567890112345678901234\n");
-        writer.write("abcdefghijklmnopqrstuvwxyz\n");
+        for(int i = 0; i < count; i++) {
+        	writer.write(log_generator.log_buffer[i] + "\n");
+        }
+//        writer.write("abcdefghijklmnopqrstuvwxyz\n");
+//        writer.write("01234567890112345678901234\n");
+//        writer.write("!@#$%^&*()-=[]{};':',.<>/?\n");
+//        writer.write("01234567890112345678901234\n");
+//        writer.write("abcdefghijklmnopqrstuvwxyz\n");
         writer.close();
 
         return file;
